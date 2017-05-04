@@ -1,21 +1,23 @@
 package com.bjedrzejewski.tasklistservice;
 
-import com.google.common.base.Optional;
-import com.codahale.metrics.annotation.Timed;
-import com.google.common.io.CharStreams;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.codahale.metrics.annotation.Timed;
+import com.google.common.base.Optional;
+import com.google.common.io.CharStreams;
 
 /**
  * Created by bartoszjedrzejewski on 03/01/2016.
@@ -42,7 +44,9 @@ public class TaskListResource {
 
         try {
             //Get processes from the terminal
-            Process p = Runtime.getRuntime().exec("ps -e");
+//            Process p = Runtime.getRuntime().exec("ps -e");
+            Process p = Runtime.getRuntime().exec
+            	    (System.getenv("windir") +"\\system32\\"+"tasklist.exe");
             BufferedReader input =
                     new BufferedReader(new InputStreamReader(p.getInputStream()));
             //Dropwizard comes with google guava
